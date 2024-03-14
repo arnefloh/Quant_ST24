@@ -1,32 +1,44 @@
-### Load Packages ----
+# Load packages ----
 library(tidyverse)
+library(janitor)
 
 
-### Load Data ----
+# Load data ----
 # object <- function (argument1, argument2,...)
 # short cut assign operator: ALT + "-"
 # loads csv file and save it as "my.data"
-my.data <- read_csv("Data Wrangling and Descriptive Statistics/airbnb_vienna.csv")
+my.data <- read_csv("Session 2/airbnb_vienna.csv")
 
+my.data  <-  my.data |> clean_names()
 
-### Explore Data ----
+# Explore data ----
 view(my.data)
 
 head(my.data)
 tail(my.data)
+
 glimpse(my.data)
 str(my.data)
 
 
-### Clean Data ----
-#### Change Class of Variable "neighbourhood" ----
+# Summary of variable(s) ----
+summary(my.data)
+
+#summary(data_name$variable_name)
+summary(my.data$price)
+
+
+# Clean data ----
+## Change class of variable "neighbourhood" ----
 my.data <- my.data |> 
             mutate (neighbourhood_fct = as_factor(neighbourhood))
 
 
-#my.data$price_new <- na_if(my.data$price, 0)
+## Delete missing Values
+my.data$price_new <- na_if(my.data$price, 0)
 
-#my.data$price_new2 <- if_else(my.data$price_new < 1000, my.data$price_new, NA_real_)
+## Convert Outliers into missing
+my.data$price_new2 <- if_else(my.data$price_new < 1000, my.data$price_new, NA_real_)
 
 #my.data$price_night <- my.data %>% mutate(price_night = price/minimum_nights)
 
